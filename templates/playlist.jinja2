@@ -1,0 +1,77 @@
+<div oc-lazy-load="['/static/matrix-theme/jquery-3.2.1.min.js','/static/matrix-theme/matrix.js']"></div>
+
+<style>
+@media only screen and (min-width: 650px) {
+    /* For tablet: */
+    .section {
+    }
+	.section .widget {
+		width: 100%;
+		float: left;
+	}
+	.section .widget.wide {
+		width: 100%;
+		float: left;
+	}   
+	.header a {
+		display: none;
+	}
+}
+@media only screen and (min-width: 1000px) {
+    /* For desktop: */
+    .section {
+    }
+	.section .widget {
+		width: 100%;
+		float: left;
+	}
+	.section .widget.wide {
+		width: 100%;
+		float: left;
+	}
+	.header a {
+		display: inline;
+	} 
+}
+  
+.section .music {
+    width: 100%;
+    float: right;
+    padding-top: 15px;
+}
+.section .music .cover {
+  	width: 150px;
+    height: 150px;
+    background-size: cover;
+    margin-left: 25px;
+    margin-bottom: 25px;
+    float: left;
+}
+  
+.section .music .cover.on {
+  	width: 150px;
+    height: 150px;
+    background-size: cover;
+    margin-left: 25px;
+    margin-bottom: 25px;
+    float: left;
+  	border-style: ridge;
+  	border-color: #26BF75;
+}
+</style>
+ 
+<div class="section">
+  <div class="widget">
+    <div class="music">
+      {% for item in playlist %}
+      <!-- {{ item.album_title  }} -->
+      <div class="cover on" ng-if="itemState('spotify_AlbumId')=='{{ item.album_id }}'" ng-click="sendCmd('spotify_TracktoPlay', 'spotify:album:{{ item.album_id }}')" ng-style="{'background-image': 'url({{ item.album_cover_small }})'}"></div>
+      <div class="cover" ng-if="itemState('spotify_AlbumId')!='{{ item.album_id }}'" ng-click="sendCmd('spotify_TracktoPlay', 'spotify:album:{{ item.album_id }}')" ng-style="{'background-image': 'url({{ item.album_cover_small }})'}"></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+
