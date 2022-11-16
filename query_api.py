@@ -4,9 +4,13 @@ import os
 import re
 from ctypes import ArgumentError
 
+import requests
 import spotipy
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from PIL import Image
+from requests.adapters import HTTPAdapter
 from spotipy.oauth2 import SpotifyClientCredentials
+from urllib3.util.retry import Retry
 
 # Die Alte und der Kommisar
 # https://open.spotify.com/album/3snwe7XTiMOlxdRb97GZoq?si=U8UMUjW3Qu2LN_Z7_fPtdw
@@ -42,8 +46,8 @@ def get_type_and_if_from_url(url):
 
     return {'type_name': _name, 'id': _id}
 
-_type, _id = get_type_and_if_from_url('https://open.spotify.com/playlist/6GW1MH9yw8zA2AHDPW73cO?si=eda1239c13d84594').values()
-
+#_type, _id = get_type_and_if_from_url('https://open.spotify.com/playlist/5SCbLiQEB8u5iWOHM9cNrn?si=2c19096064ad4f6c').values()
+_type, _id = get_type_and_if_from_url('https://open.spotify.com/playlist/25dIxWREnlY6a37FMj1sST?si=63bae965e44a48ff').values()
 
 
 _content = {}
@@ -51,7 +55,6 @@ if _type == 'playlist':
     query = spotify.playlist(playlist_id=_id)
     result = query['tracks']
     playlist_name = query['name']
-    # while playlist_content['next']:
     all_tracks = result['items']
     while result['next']:
         result = spotify.next(result)
@@ -68,6 +71,13 @@ def get_openhab_relevant_data_from_album(album_ids):
     else:
         x.append(album_ids)
     _playlist = []
+
+    session = requests.Session()
+    retry = Retry(connect=3, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+
     for item in spotify.albums(x)['albums']:
         try:
             query = {}
@@ -76,6 +86,19 @@ def get_openhab_relevant_data_from_album(album_ids):
             query["album_cover_small"] = item['images'][1]['url']
             query["album_cover_large"] = item['images'][0]['url']
             query["album_id"] = item['id']
+
+            img_url = item['images'][1]['url']
+
+            with Image.open(session.get(img_url, stream = True).raw) as img:
+                img.filename = img_url.rsplit('/', 1)[-1] + '.jpg'
+                
+                local_path = '/etc/openhab/html/spotify_api/images'
+
+                if not os.path.exists(local_path):
+                    os.mkdir(local_path)
+                
+                img.resize((150,150),Image.ANTIALIAS).save(os.path.join(local_path, img.filename))
+                query["album_cover_local"] = f'http://openhabian.home.wlan:8080/static/spotify_api/images/{img.filename}'
 
             _playlist.append(query)
         except (AttributeError, TypeError):

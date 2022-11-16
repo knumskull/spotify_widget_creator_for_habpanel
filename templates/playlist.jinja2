@@ -65,8 +65,8 @@
     <div class="music">
       {% for item in playlist %}
       <!-- {{ item.album_title  }} -->
-      <div class="cover on" ng-if="itemState('spotify_AlbumId')=='{{ item.album_id }}'" ng-click="sendCmd('spotify_TracktoPlay', 'spotify:album:{{ item.album_id }}')" ng-style="{'background-image': 'url({{ item.album_cover_small }})'}"></div>
-      <div class="cover" ng-if="itemState('spotify_AlbumId')!='{{ item.album_id }}'" ng-click="sendCmd('spotify_TracktoPlay', 'spotify:album:{{ item.album_id }}')" ng-style="{'background-image': 'url({{ item.album_cover_small }})'}"></div>
+      <div class="cover on" ng-if="itemState('spotify_AlbumId')=='{{ item.album_id }}'" ng-click="sendCmd('spotify_TracktoPlay', 'spotify:album:{{ item.album_id }}')" ng-style="{'background-image': 'url({{ item.album_cover_local }})'}"></div>
+      <div class="cover" ng-if="itemState('spotify_AlbumId')!='{{ item.album_id }}'" ng-click="sendCmd('spotify_TracktoPlay', 'spotify:album:{{ item.album_id }}')" ng-style="{'background-image': 'url({{ item.album_cover_local }})'}"></div>
       {% endfor %}
     </div>
   </div>
