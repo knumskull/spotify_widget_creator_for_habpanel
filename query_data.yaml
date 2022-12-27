@@ -1,5 +1,4 @@
 # This file contains the data of playlists
-
 ---
 - display_name: Die Schule der magischen Tiere
   playlist_url: https://open.spotify.com/playlist/5pMu3kMMf3sPpW7SsQtq6P?si=929724479f8e4c20
@@ -11,3 +10,5 @@
   playlist_url: https://open.spotify.com/playlist/6GW1MH9yw8zA2AHDPW73cO?si=eda1239c13d84594
 - display_name: Elmar - alle Geschichten
   playlist_url: https://open.spotify.com/playlist/4JIfr9FKSzuAv1D9ohoj9h?si=0bd00229ada34f6e
+- display_name: Die Eiskönigin
+  playlist_url: https://open.spotify.com/playlist/3sY0G7W8WjEMTL496OF982?si=7649fc708d4c4f0b
