@@ -106,6 +106,8 @@ def create_widget_file(content:str, playlist_name:str, destination:str = '.') ->
     openhab_widget['template'] = content
     openhab_widget['id'] = playlist_name
     openhab_widget['settings'] = ''
+    openhab_widget['name'] = f'Spotify Playlist - {playlist_name}'
+    openhab_widget['author'] = u'Steffen Frömer'
 
     target_filename = playlist_name.replace(" ", "_").lower()
     target = os.path.join(destination, target_filename)
