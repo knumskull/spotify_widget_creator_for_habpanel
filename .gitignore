@@ -3,3 +3,4 @@
 images/**
 token
 .vscode
+**/*.pyc
