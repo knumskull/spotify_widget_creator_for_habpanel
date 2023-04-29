@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
-import json
 import os
-import re
 from ctypes import ArgumentError
 
-import requests
 import spotipy
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from PIL import Image
-from requests.adapters import HTTPAdapter
 from spotipy.oauth2 import SpotifyClientCredentials
-from urllib3.util.retry import Retry
-from yaml import FullLoader, load as yaml_load
 from api_tools.api_modules import load_query_information, get_playlist_from_spotify_playlist_url, create_widget_file
 
 # not the best way - ToDo improve the error handling
