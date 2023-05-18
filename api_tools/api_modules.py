@@ -2,16 +2,14 @@
 import json
 import os
 import re
-from ctypes import ArgumentError
 
 import requests
-import spotipy
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from PIL import Image
 from requests.adapters import HTTPAdapter
-from spotipy.oauth2 import SpotifyClientCredentials
 from urllib3.util.retry import Retry
-from yaml import FullLoader, load as yaml_load
+from yaml import FullLoader
+from yaml import load as yaml_load
+
 
 def load_query_information() -> dict:
     """ load information to query from YAML file and provide as list """
@@ -19,7 +17,8 @@ def load_query_information() -> dict:
         with open('query_data.yaml') as f:
             data = yaml_load(f, Loader=FullLoader)
     except FileNotFoundError as err:
-        print("File 'query_data.yml' not found.")
+        print(f"File 'query_data.yml' not found. ({err})")
+        
     return data
 
 def query_spotify_api(client, url) -> dict:

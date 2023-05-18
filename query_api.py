@@ -5,7 +5,10 @@ from ctypes import ArgumentError
 import spotipy
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from spotipy.oauth2 import SpotifyClientCredentials
-from api_tools.api_modules import load_query_information, get_playlist_from_spotify_playlist_url, create_widget_file
+
+from api_tools.api_modules import (create_widget_file,
+                                   get_playlist_from_spotify_playlist_url,
+                                   load_query_information)
 
 # not the best way - ToDo improve the error handling
 try:
