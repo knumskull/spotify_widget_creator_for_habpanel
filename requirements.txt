@@ -1,0 +1,4 @@
+Jinja2
+Pillow
+PyYAML
+spotipy
