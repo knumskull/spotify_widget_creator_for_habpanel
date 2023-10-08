@@ -71,6 +71,8 @@ def get_openhab_relevant_data_from_album(spotify_client, album_ids) -> list:
 
             with Image.open(session.get(img_url, stream = True).raw) as img:
                 img.filename = img_url.rsplit('/', 1)[-1] + '.jpg'
+                # This path needs to have write permissions for the executing user. 
+                # typically 0775 for openhab:openhab 
                 local_path = '/etc/openhab/html/spotify_api/images'
 
                 if not os.path.exists(local_path):
