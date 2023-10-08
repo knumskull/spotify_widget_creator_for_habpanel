@@ -1,4 +1,5 @@
-Jinja2
-Pillow
-PyYAML
+jinja2
+pillow
+pip-chill
+pyyaml
 spotipy
