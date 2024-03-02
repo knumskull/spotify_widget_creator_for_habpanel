@@ -1,0 +1,26 @@
+schemaVersion: 2.2.2
+metadata:
+  name: python-spotify-api
+components:
+  - name: tools
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      volumeMounts:
+        - name: venv
+          path: /home/user/.venv
+      memoryLimit: 512Mi
+      mountSources: true
+
+  - name: venv
+    volume:
+      size: 1G
+
+commands:
+  - id: run-application
+    exec:
+      label: "Run application"
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: "python3 query_api.py"
+      group:
+        kind: run
