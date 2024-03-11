@@ -17,11 +17,7 @@ try:
 except KeyError:
     raise ArgumentError('Missing Environment Variables: SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI')
 
-try:
-    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-except SpotifyOauthError as err:
-    print(f'Error occurred: {err}')
-    print(f'SPOTIPY_CLIENT_ID: {os.environ["SPOTIPY_CLIENT_ID"]} - SPOTIPY_CLIENT_SECRET: {os.environ["SPOTIPY_CLIENT_SECRET"]} - SPOTIPY_REDIRECT_URI: {os.environ["SPOTIPY_REDIRECT_URI"]}')
+spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
 if __name__ == '__main__':
     """ run this script as standalone and create widget.json file """
@@ -31,8 +27,7 @@ if __name__ == '__main__':
         try:
             playlist = get_playlist_from_spotify_playlist_url(spotify, item['playlist_url'])
         except SpotifyOauthError as err:
-            print(f'Error occurred: {err}')
-            print(f'SPOTIPY_CLIENT_ID: {os.environ["SPOTIPY_CLIENT_ID"]} - SPOTIPY_CLIENT_SECRET: {os.environ["SPOTIPY_CLIENT_SECRET"]} - SPOTIPY_REDIRECT_URI: {os.environ["SPOTIPY_REDIRECT_URI"]}')
+            print(f'Error occurred. Please verify credentials: {err}')
             exit(10)
 
         templateLoader = FileSystemLoader(searchpath="./templates")
