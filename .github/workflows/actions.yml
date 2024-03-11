@@ -3,7 +3,7 @@ name: run query_api.py
 
 on:
   schedule:
-    - cron: '9 0 * * *' # Everyday at 9:00am 
+    - cron: '0 10 * * *' # Everyday at 10:00am 
 
 jobs:
   build:
