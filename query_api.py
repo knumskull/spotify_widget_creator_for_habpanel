@@ -4,7 +4,7 @@ from ctypes import ArgumentError
 
 import spotipy
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOauthError
 
 from api_tools.api_modules import (create_widget_file,
                                    get_playlist_from_spotify_playlist_url,
@@ -17,15 +17,23 @@ try:
 except KeyError:
     raise ArgumentError('Missing Environment Variables: SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI')
 
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+try:
+    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+except SpotifyOauthError as err:
+    print(f'Error occurred: {err}')
+    print(f'SPOTIPY_CLIENT_ID: {os.environ["SPOTIPY_CLIENT_ID"]} - SPOTIPY_CLIENT_SECRET: {os.environ["SPOTIPY_CLIENT_SECRET"]} - SPOTIPY_REDIRECT_URI: {os.environ["SPOTIPY_REDIRECT_URI"]}')
 
 if __name__ == '__main__':
     """ run this script as standalone and create widget.json file """
 
     for item in load_query_information():
         print(f"{item['display_name']} - {item['playlist_url']}")
-
-        playlist = get_playlist_from_spotify_playlist_url(spotify, item['playlist_url'])
+        try:
+            playlist = get_playlist_from_spotify_playlist_url(spotify, item['playlist_url'])
+        except SpotifyOauthError as err:
+            print(f'Error occurred: {err}')
+            print(f'SPOTIPY_CLIENT_ID: {os.environ["SPOTIPY_CLIENT_ID"]} - SPOTIPY_CLIENT_SECRET: {os.environ["SPOTIPY_CLIENT_SECRET"]} - SPOTIPY_REDIRECT_URI: {os.environ["SPOTIPY_REDIRECT_URI"]}')
+            exit(10)
 
         templateLoader = FileSystemLoader(searchpath="./templates")
         templateEnv = Environment(loader=templateLoader, autoescape=select_autoescape(['html', 'xml']))
