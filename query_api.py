@@ -4,7 +4,7 @@ from ctypes import ArgumentError
 
 import spotipy
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOauthError
 
 from api_tools.api_modules import (create_widget_file,
                                    get_playlist_from_spotify_playlist_url,
@@ -24,8 +24,11 @@ if __name__ == '__main__':
 
     for item in load_query_information():
         print(f"{item['display_name']} - {item['playlist_url']}")
-
-        playlist = get_playlist_from_spotify_playlist_url(spotify, item['playlist_url'])
+        try:
+            playlist = get_playlist_from_spotify_playlist_url(spotify, item['playlist_url'])
+        except SpotifyOauthError as err:
+            print(f'Error occurred. Please verify credentials: {err}')
+            exit(10)
 
         templateLoader = FileSystemLoader(searchpath="./templates")
         templateEnv = Environment(loader=templateLoader, autoescape=select_autoescape(['html', 'xml']))

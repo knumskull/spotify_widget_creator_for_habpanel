@@ -76,7 +76,7 @@ def get_openhab_relevant_data_from_album(spotify_client, album_ids) -> list:
                 local_path = '/etc/openhab/html/spotify_api/images'
 
                 if not os.path.exists(local_path):
-                    os.mkdir(local_path)
+                    os.mkdirs(local_path)
                 
                 img.resize((200,200),Image.ANTIALIAS).save(os.path.join(local_path, img.filename))
                 query["album_cover_local"] = f'http://openhabian.home.wlan:8080/static/spotify_api/images/{img.filename}'
